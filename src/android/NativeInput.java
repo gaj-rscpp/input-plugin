@@ -42,7 +42,7 @@ public class NativeInput extends CordovaPlugin {
 
     static final int RIGHT_BUTTON_ARG = 3;
 
-    static final int BUTTON_WIDTH = 260;
+    static final int BUTTON_WIDTH = 230;
 
     static final int BUTTON_HEIGHT = 60;
 
@@ -175,22 +175,27 @@ public class NativeInput extends CordovaPlugin {
 
         AGStyler.setStyleClass(mEditText, NATIVE_INPUT);
 
+        mEditText.setPadding(8, 4, 8, 8);
+
+        mEditText.addTextChangedListener(mTextChangedListener);
+
+        mEditText.setOnEditorActionListener(mKeyboardActionListener);
+    }
+
+    private void addEditTextToPanel(boolean hasBothButtons) {
+        mPanel.removeView(mEditText);
+
+        float weight = hasBothButtons ? 2f : 1f;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                2f);
+                weight);
         params.leftMargin = 10;
         params.rightMargin = 10;
         params.topMargin = 6;
         params.bottomMargin = 10;
 
         mPanel.addView(mEditText, params);
-
-        mEditText.setPadding(8, 4, 8, 8);
-
-        mEditText.addTextChangedListener(mTextChangedListener);
-
-        mEditText.setOnEditorActionListener(mKeyboardActionListener);
     }
 
     public boolean execute(final String action, final JSONArray args,
@@ -237,10 +242,16 @@ public class NativeInput extends CordovaPlugin {
     private void show(final CallbackContext callbackContext, final JSONArray args)
             throws JSONException {
 
+        boolean hasRightButton = !args.isNull(RIGHT_BUTTON_ARG);
+        boolean hasLeftButton = !args.isNull(RIGHT_BUTTON_ARG);
+
         if (mPanel == null) {
             createBasicUi();
         }
-        addEditTextBelowWebView();
+
+        addEditTextToPanel(hasRightButton && hasLeftButton);
+
+        addPanelBelowWebView();
 
         if (!args.isNull(INPUT_ARG)) {
             setupEditTextOptions(args.getJSONObject(INPUT_ARG));
@@ -251,13 +262,13 @@ public class NativeInput extends CordovaPlugin {
         }
 
         removeRightButton();
-        if (!args.isNull(RIGHT_BUTTON_ARG)) {
-            addRightButton(args.getJSONObject(RIGHT_BUTTON_ARG));
+        if (hasRightButton) {
+            addRightButton(args.getJSONObject(RIGHT_BUTTON_ARG), hasLeftButton);
         }
 
         removeLeftButton();
-        if (!args.isNull(LEFT_BUTTON_ARG)) {
-            addLeftButton(args.getJSONObject(LEFT_BUTTON_ARG));
+        if (hasLeftButton) {
+            addLeftButton(args.getJSONObject(LEFT_BUTTON_ARG), hasRightButton);
         }
 
         AGStyler.updateStyle(mEditText);
@@ -302,13 +313,15 @@ public class NativeInput extends CordovaPlugin {
         return inputArgs.optString(PLACE_HOLDER, "");
     }
 
-    private void addRightButton(JSONObject jsonObject) throws JSONException {
+    private void addRightButton(JSONObject jsonObject, boolean hasLeftButton) throws JSONException {
         mRightButton = new Button(webView.getContext());
 
+
+        float weight = hasLeftButton ? 2f : 1f;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 BUTTON_WIDTH,
                 BUTTON_HEIGHT,
-                1f);
+                weight);
         params.leftMargin = 0;
         params.rightMargin = 10;
         params.topMargin = 12;
@@ -344,13 +357,14 @@ public class NativeInput extends CordovaPlugin {
         }
     }
 
-    private void addLeftButton(JSONObject jsonObject) {
+    private void addLeftButton(JSONObject jsonObject, boolean hasRightButton) {
         mLeftButton = new Button(webView.getContext());
 
+        float weight = hasRightButton ? 2f : 1f;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 BUTTON_WIDTH,
                 BUTTON_HEIGHT,
-                1f);
+                weight);
         params.leftMargin = 10;
         params.rightMargin = 0;
         params.topMargin = 12;
@@ -386,7 +400,7 @@ public class NativeInput extends CordovaPlugin {
         }
     }
 
-    private void addEditTextBelowWebView() {
+    private void addPanelBelowWebView() {
         ViewGroup parentView = (ViewGroup) webView.getParent();
         parentView.removeView(mPanel);
         parentView.addView(mPanel);

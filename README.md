@@ -128,8 +128,6 @@ cordova.plugins.NativeInput.getValue(function(value){
 The handler function will be called once with the current value of the input field.
 
 
-#TODO:
- - fix the size of the buttons when using both sides
- - test on Androi 4 and 5 (make sure the size of the input field is consistent)
- - upload to git repo
- - test install of the plugin.
+#Next:
+ - iOS Version
+ - Ability to specify location (top/bottom) - being able to add this to the top of the webview give developer ability to use it as a search box.
