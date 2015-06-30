@@ -1,0 +1,54 @@
+
+/**
+ * Native Input Plugin
+ */
+(function() {
+  var exec = require("cordova/exec") ,
+      SERVICE_NAME = "NativeInput" ,
+      NativeInput = {};
+
+  NativeInput.show = function(params, cb, err) {
+
+    params = params || {};
+
+    exec(cb, err, SERVICE_NAME, "show", [params.panel,
+                                            params.input,
+                                            params.leftButton,
+                                            params.rightButton]);
+  };
+
+  NativeInput.closeKeyboard = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "closeKeyboard", []);
+  };
+
+  NativeInput.onButtonAction = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onButtonAction", []);
+  };
+
+  NativeInput.onKeyboardAction = function(params, cb, err) {
+    params = params || {};
+
+    params.autoCloseKeyboard = params.autoCloseKeyboard || true;
+
+    exec(cb, err, SERVICE_NAME, "onKeyboardAction", [params.autoCloseKeyboard]);
+  };
+
+  NativeInput.hide = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "hide", []);
+  };
+
+  NativeInput.onChange = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onChange", []);
+  };
+
+  NativeInput.getValue = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "getValue", []);
+  };
+
+  NativeInput.setValue = function(value, cb, err) {
+    exec(cb, err, SERVICE_NAME, "setValue", [value]);
+  };
+
+  module.exports = NativeInput;
+
+})();

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.appgyver.plugins.nativeinput" version="0.0.1">
+    <name>NativeInput</name>
+    <description>AppGyver Native Input Plugin - This plugin adds a native input field below the webview and is always
+    visible even when displaying the keyboard.
+    </description>
+    <keywords></keywords>
+
+    <js-module src="www/NativeInput.js" name="NativeInput">
+        <clobbers target="cordova.plugins.NativeInput" />
+    </js-module>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="NativeInput">
+                <param name="ios-package" value="CDVNativeInput"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVNativeInput.h" />
+        <source-file src="src/ios/CDVNativeInput.m" />
+    </platform>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="NativeInput" >
+                <param name="android-package" value="com.appgyver.plugins.nativeinput.NativeInput"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/NativeInput.java" target-dir="src/com/appgyver/plugins/nativeinput/" />
+        <source-file src="src/android/CustomEditText.java" target-dir="src/com/appgyver/plugins/nativeinput/" />
+        <source-file src="src/android/CustomEditTextAdapter.java" target-dir="src/com/appgyver/plugins/nativeinput/" />
+    </platform>
+</plugin>
