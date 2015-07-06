@@ -11,14 +11,16 @@
         <clobbers target="cordova.plugins.NativeInput" />
     </js-module>
 
+    <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="NativeInput">
-                <param name="ios-package" value="CDVNativeInput"/>
+                <param name="ios-package" value="AGNativeInput"/>
             </feature>
         </config-file>
-        <header-file src="src/ios/CDVNativeInput.h" />
-        <source-file src="src/ios/CDVNativeInput.m" />
+
+        <header-file src="src/ios/AGNativeInput.h" />
+        <source-file src="src/ios/AGNativeInput.m" />
     </platform>
 
     <!-- android -->
