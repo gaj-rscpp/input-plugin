@@ -21,6 +21,10 @@
 
         <header-file src="src/ios/AGNativeInput.h" />
         <source-file src="src/ios/AGNativeInput.m" />
+
+        <header-file src="src/ios/AGInputView.h" />
+        <source-file src="src/ios/AGInputView.m" />
+        <resource-file src="src/ios/AGInputView.xib" />
     </platform>
 
     <!-- android -->
