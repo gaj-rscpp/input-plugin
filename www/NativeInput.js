@@ -25,12 +25,9 @@
     exec(cb, err, SERVICE_NAME, "onButtonAction", []);
   };
 
-  NativeInput.onKeyboardAction = function(params, cb, err) {
-    params = params || {};
-
-    params.autoCloseKeyboard = params.autoCloseKeyboard || true;
-
-    exec(cb, err, SERVICE_NAME, "onKeyboardAction", [params.autoCloseKeyboard]);
+  NativeInput.onKeyboardAction = function(autoClose, cb, err) {
+    autoClose = autoClose || true;    
+    exec(cb, err, SERVICE_NAME, "onKeyboardAction", [autoClose]);
   };
 
   NativeInput.hide = function(cb, err) {

@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <PixateFreestyle/PixateFreestyle.h>
 #import "CDVPlugin.h"
 #import "AGInputView.h"
 #import "WebViewController.h"
 
-@interface AGNativeInput : CDVPlugin
+@interface AGNativeInput : CDVPlugin<UITextFieldDelegate, AGInputViewDelegate>
 
 @property (nonatomic, strong) AGInputView *inputView;
 
@@ -30,7 +31,5 @@
 - (void)onChange:(CDVInvokedUrlCommand*)command;
 
 - (void)getValue:(CDVInvokedUrlCommand*)command;
-
-- (void)setValue:(CDVInvokedUrlCommand*)command;
 
 @end
