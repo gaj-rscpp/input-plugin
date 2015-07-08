@@ -432,16 +432,16 @@ public class NativeInput extends CordovaPlugin {
         int inputType = EditorInfo.TYPE_CLASS_TEXT;
 
         if (!inputArgs.isNull(TYPE)) {
-            JSONArray inputTypeValues = inputArgs.getJSONArray(TYPE);
+            String type = inputArgs.getString(TYPE);
 
-            if (find(URI, inputTypeValues)) {
-                inputType = inputType | EditorInfo.TYPE_TEXT_VARIATION_URI;
+            if (URI.equalsIgnoreCase(type)) {
+                inputType = EditorInfo.TYPE_TEXT_VARIATION_URI;
             }
-            if (find(EMAIL, inputTypeValues)) {
-                inputType = inputType | EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+            if (EMAIL.equalsIgnoreCase(type)) {
+                inputType = EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
             }
-            if (find(NUMBER, inputTypeValues)) {
-                inputType = inputType | EditorInfo.TYPE_NUMBER_VARIATION_NORMAL;
+            if (NUMBER.equalsIgnoreCase(type)) {
+                inputType = EditorInfo.TYPE_NUMBER_VARIATION_NORMAL;
             }
         }
 
