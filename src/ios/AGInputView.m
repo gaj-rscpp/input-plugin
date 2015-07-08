@@ -26,7 +26,8 @@
 
 @synthesize leftButton, rightButton, inputField, leftConstraints, rightConstraints, noButtonsConstraints, bothButtonsConstraints, currentConstraints = _currentConstraints, delegate;
 
--(AGInputView*)init{
+- (instancetype)initWithElementName:(NSString *)name
+{
     self = [super init];
     if (self) {
         [self setupDefaults];
@@ -34,7 +35,15 @@
     return self;
 }
 
-- (AGInputView*)initWithCoder:(NSCoder *)coder
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        [self setupDefaults];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {
@@ -43,7 +52,7 @@
     return self;
 }
 
-- (AGInputView*)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -66,6 +75,13 @@
 -(void)setupDefaults{
     
     self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    //PXUIButton* pxBUtton = (PXUIButton*)self.leftButton;
+    
+    //pxBUtton.view
+    
+    //self.leftButton.viewStylers add
+    
 }
 
 -(void)createConstraints{
@@ -136,6 +152,21 @@
     [self setCurrentConstraints:self.rightConstraints];
     self.leftButton.hidden = YES;
     self.rightButton.hidden = NO;
+}
+
+#pragma Pixate
+
+- (NSString *)pxStyleElementName
+{
+    return @"nativeInput-panel";
+}
+
+- (NSString *)description
+{
+    id parent = self.pxStyleParent;
+    NSString *parentName = ([parent conformsToProtocol:@protocol(PXStyleable)]) ? ((id<PXStyleable>) parent).pxStyleElementName : @"nil";
+    
+    return [NSString stringWithFormat:@"<StyleableView parent='%@' name='%@'>", parentName, self.pxStyleElementName];
 }
 
 @end

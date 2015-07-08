@@ -53,6 +53,14 @@ int RIGHT_BUTTON_ARG = 3;
 -(void)setup{
     
     self.inputView = [self loadAGInputView];
+    
+    //move to setup pixate
+    self.inputView.styleClass = @"nativeInput-panel";
+    self.inputView.inputField.styleClass = @"nativeInput";
+    self.inputView.leftButton.styleClass = @"nativeInput-leftButton";
+    self.inputView.rightButton.styleClass = @"nativeInput-rightButton";
+    [self.inputView updateStyles];
+    
     self.inputView.inputField.delegate = self;
     self.inputView.delegate = self;
     
@@ -145,7 +153,11 @@ int RIGHT_BUTTON_ARG = 3;
         inputView.inputField.keyboardType = UIKeyboardTypeDefault;
     }
     
-    NSString* styleClass = [NSString stringWithFormat:@"nativeInput %@", [inputOptions valueForKey:@"styleClass"]];
+    NSString* styleClass = @"nativeInput";
+    if([self isNotNull:[inputOptions valueForKey:@"styleClass"]]){
+        styleClass = (NSString*)[inputOptions valueForKey:@"styleClass"];
+    }
+    
     NSString* styleId = (NSString *) [inputOptions valueForKey:@"styleId"];
     NSString* styleCss = (NSString *) [inputOptions valueForKey:@"styleCss"];
     
@@ -161,7 +173,11 @@ int RIGHT_BUTTON_ARG = 3;
 
 -(void)setPanelOptions:(NSDictionary*)options{
     
-    NSString* styleClass = [NSString stringWithFormat:@"nativeInput-panel %@", [options valueForKey:@"styleClass"]];
+    NSString* styleClass = @"nativeInput-panel";
+    
+    if([self isNotNull:[options valueForKey:@"styleClass"]]){
+        styleClass = (NSString*)[options valueForKey:@"styleClass"];
+    }
     NSString* styleId = (NSString *) [options valueForKey:@"styleId"];
     NSString* styleCss = (NSString *) [options valueForKey:@"styleCss"];
     
@@ -206,7 +222,7 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 
--(BOOL)hasValidButtonOptions:(id)options{
+-(BOOL)isValidDictionaryWithValues:(id)options{
     return ([self isNotNull:options] &&
             [options isKindOfClass:[NSDictionary class]] &&
             [(NSDictionary*)options count] > 0);
@@ -241,14 +257,18 @@ int RIGHT_BUTTON_ARG = 3;
     
     self.inputView.hidden = NO;
     
-    NSDictionary* inputOptions = (NSDictionary*)[command.arguments objectAtIndex:INPUT_ARG];
-    [self setInpuFieldOptions:inputOptions];
+    if([self isValidDictionaryWithValues:[command.arguments objectAtIndex:PANEL_ARG]]){
+        NSDictionary* inputOptions = (NSDictionary*)[command.arguments objectAtIndex:INPUT_ARG];
+        [self setInpuFieldOptions:inputOptions];
+    }
     
-    NSDictionary* panelOptions = (NSDictionary*)[command.arguments objectAtIndex:PANEL_ARG];
-    [self setPanelOptions:panelOptions];
+    if([self isValidDictionaryWithValues:[command.arguments objectAtIndex:PANEL_ARG]]){
+        NSDictionary* panelOptions = (NSDictionary*)[command.arguments objectAtIndex:PANEL_ARG];
+        [self setPanelOptions:panelOptions];
+    }
     
-    BOOL showLeftButton = [self hasValidButtonOptions:[command.arguments objectAtIndex:LEFT_BUTTON_ARG]];
-    BOOL showRightButton = [self hasValidButtonOptions:[command.arguments objectAtIndex:RIGHT_BUTTON_ARG]];
+    BOOL showLeftButton = [self isValidDictionaryWithValues:[command.arguments objectAtIndex:LEFT_BUTTON_ARG]];
+    BOOL showRightButton = [self isValidDictionaryWithValues:[command.arguments objectAtIndex:RIGHT_BUTTON_ARG]];
     
     if(showLeftButton && showRightButton){
         [self setButton:self.inputView.leftButton withOptions:(NSDictionary*)[command.arguments objectAtIndex:LEFT_BUTTON_ARG]];
