@@ -1,6 +1,44 @@
 # AppGyver Native Input Plugin
 
-This plugins adds a native input field at the bottom of the webview allowing for apps with chat views to have a better user experience where the input field at the bottom will not be hidden by the soft keyboard.
+This plugin renders a native view (panel) at the bottom of the webview that contains:
+ | leftButton - inputField - rightButton |
+
+This allows for apps with chat views to have a better user experience where
+the input field is native and moves up and down with soft-keyboard.
+
+All components can be styled using css:
+```
+/*default values*/
+
+/*default css class for the inputField*/
+.nativeInput {
+  background-color: white;
+  color:black;
+}
+
+/*default css class for the panel */
+.nativeInput-panel {
+  background-color: white;
+}
+
+/*default class for the left button */
+.nativeInput-leftButton {
+  background-color: whitesmoke;
+}
+
+.nativeInput-leftButton:pressed {
+  background-color: #C0C0C0;
+}
+
+/*default class for the right button */
+.nativeInput-rightButton {
+  background-color: whitesmoke;
+}
+
+.nativeInput-rightButton:pressed{
+  background-color: #C0C0C0;
+}
+```
 
 ## Usage
 ### cordova.plugins.NativeInput.show(params)
@@ -8,7 +46,7 @@ This plugins adds a native input field at the bottom of the webview allowing for
 ```
 params = {
       leftButton:{
-        styleCSS: 'text:hellow;color:blue;background-color:green;'
+        styleCSS: 'text:Up;color:blue;background-color:gray;'
       },
       rightButton: {
         styleClass: 'myRightButtonClass',
@@ -19,7 +57,7 @@ params = {
       },
       input:{
         placeHolder: 'Type your message here',
-        type: ['normal'],
+        type: 'normal',
         lines: 1,
         styleClass: 'myInputClass'
       }
@@ -63,15 +101,11 @@ You can use css to configure it's look and feel (styleId, styleClass and styleCS
 
 You can also configure the following options:
 
-* type - An array that determines the behaviour of the input field and soft keyboard.
-
-```
-value: ['uri', 'normal', 'email', 'number']
-```
+* type - string - Defines the behaviour of the input field and the soft keyboard. Possible values: ('uri', 'normal', 'email', 'number')
 
 * placeHolder - Text that appears in the input field while it is empty.
 
-* lines - Number of lines that the input field will support. When you specify 1 the input field is confifure as single line.
+* lines - (Android Only) Number of lines that the input field will support. When you specify 1 the input field is confifure as single line.
 When lines > 1 the input field is configure as mult-line and will grow in size as the user adds more lines to the text.
 
 ### cordova.plugins.NativeInput.hide()
@@ -81,6 +115,10 @@ cordova.plugins.NativeInput.hide();
 ```
 
 ### cordova.plugins.NativeInput.onKeyboardAction(autoCloseKeyboard, handler);
+
+* autoCloseKeyboard - If the keyboard should be closed after the "action button"
+is tapped.
+
 ```
 cordova.plugins.NativeInput.onKeyboardAction(true, function(action){
   ...
@@ -126,8 +164,3 @@ cordova.plugins.NativeInput.getValue(function(value){
 });
 ```
 The handler function will be called once with the current value of the input field.
-
-
-#Next:
- - iOS Version
- - Ability to specify location (top/bottom) - being able to add this to the top of the webview give developer ability to use it as a search box.
