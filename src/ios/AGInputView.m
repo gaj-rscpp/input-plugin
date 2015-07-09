@@ -68,19 +68,9 @@
     }
 }
 
--(NSNumber*)buttonGap{
-    return [NSNumber numberWithInt:52];
-}
-
 -(void)setupDefaults{
     
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    //PXUIButton* pxBUtton = (PXUIButton*)self.leftButton;
-    
-    //pxBUtton.view
-    
-    //self.leftButton.viewStylers add
     
 }
 
@@ -89,19 +79,19 @@
         return;
     }
     
-    NSDictionary* viewsDictionary = NSDictionaryOfVariableBindings(inputField);
-    NSDictionary *metrics = @{@"buttonGap":self.buttonGap};
+    NSDictionary* viewsDictionary = NSDictionaryOfVariableBindings(inputField, leftButton, rightButton);
+    NSDictionary *metrics = @{};
     
     self.noButtonsConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[inputField]-8-|"
                                                                         options:0 metrics:metrics views:viewsDictionary];
     
-    self.bothButtonsConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-buttonGap-[inputField]-buttonGap-|"
+    self.bothButtonsConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[leftButton]-8-[inputField]-8-[rightButton]-8-|"
                                                                         options:0 metrics:metrics views:viewsDictionary];
     
-    self.leftConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-buttonGap-[inputField]-8-|"
+    self.leftConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[leftButton]-8-[inputField]-8-|"
                                                                    options:0 metrics:metrics views:viewsDictionary];
     
-    self.rightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[inputField]-buttonGap-|"
+    self.rightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[inputField]-8-[rightButton]-8-|"
                                                                    options:0 metrics:metrics views:viewsDictionary];
     
 }
@@ -152,21 +142,6 @@
     [self setCurrentConstraints:self.rightConstraints];
     self.leftButton.hidden = YES;
     self.rightButton.hidden = NO;
-}
-
-#pragma Pixate
-
-- (NSString *)pxStyleElementName
-{
-    return @"nativeInput-panel";
-}
-
-- (NSString *)description
-{
-    id parent = self.pxStyleParent;
-    NSString *parentName = ([parent conformsToProtocol:@protocol(PXStyleable)]) ? ((id<PXStyleable>) parent).pxStyleElementName : @"nil";
-    
-    return [NSString stringWithFormat:@"<StyleableView parent='%@' name='%@'>", parentName, self.pxStyleElementName];
 }
 
 @end

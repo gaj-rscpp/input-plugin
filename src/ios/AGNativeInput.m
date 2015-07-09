@@ -159,7 +159,7 @@ int RIGHT_BUTTON_ARG = 3;
     }
     
     NSString* styleId = (NSString *) [inputOptions valueForKey:@"styleId"];
-    NSString* styleCss = (NSString *) [inputOptions valueForKey:@"styleCss"];
+    NSString* styleCss = (NSString *) [inputOptions valueForKey:@"styleCSS"];
     
     inputView.inputField.styleClass = styleClass;
     if(styleId){
@@ -179,7 +179,7 @@ int RIGHT_BUTTON_ARG = 3;
         styleClass = (NSString*)[options valueForKey:@"styleClass"];
     }
     NSString* styleId = (NSString *) [options valueForKey:@"styleId"];
-    NSString* styleCss = (NSString *) [options valueForKey:@"styleCss"];
+    NSString* styleCss = (NSString *) [options valueForKey:@"styleCSS"];
     
     inputView.styleClass = styleClass;
     if(styleId){
@@ -195,7 +195,7 @@ int RIGHT_BUTTON_ARG = 3;
 
     NSString* styleClass = (NSString *) [options valueForKey:@"styleClass"];
     NSString* styleId = (NSString *) [options valueForKey:@"styleId"];
-    NSString* styleCss = (NSString *) [options valueForKey:@"styleCss"];
+    NSString* styleCss = (NSString *) [options valueForKey:@"styleCSS"];
     BOOL cssSet = NO;
     
     if(styleClass){
