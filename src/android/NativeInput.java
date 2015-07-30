@@ -55,6 +55,8 @@ public class NativeInput extends CordovaPlugin {
     private static final String ON_KEYBOARD_ACTION = "onKeyboardAction";
 
     private static final String GET_VALUE = "getValue";
+    
+    private static final String SET_VALUE = "setValue";
 
     private static final String CLOSE_KEYBOARD = "closeKeyboard";
 
@@ -221,6 +223,8 @@ public class NativeInput extends CordovaPlugin {
             onButtonAction(callbackContext);
         } else if (action.equals(GET_VALUE)) {
             getValue(callbackContext);
+        } else if (action.equals(SET_VALUE)) {
+            setValue(callbackContext, args);
         } else if (action.equals(CLOSE_KEYBOARD)) {
             closeKeyboard(callbackContext);
         } else {
@@ -237,6 +241,10 @@ public class NativeInput extends CordovaPlugin {
     private String getValue() {
         String value = mEditText.getText().toString();
         return value;
+    }
+    
+    private String setValue(value) {
+        mEditText.setText(value);
     }
 
     private void show(final CallbackContext callbackContext, final JSONArray args)
@@ -485,6 +493,11 @@ public class NativeInput extends CordovaPlugin {
     private void getValue(CallbackContext callbackContext) {
         String value = getValue();
         callbackContext.success(value);
+    }
+    
+    private void setValue(CallbackContext callbackContext, JSONArray args) {
+        setValue(args);
+        callbackContext.success();
     }
 
     private String getActionName(int actionId) {
