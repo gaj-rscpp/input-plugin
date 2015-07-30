@@ -243,7 +243,7 @@ public class NativeInput extends CordovaPlugin {
         return value;
     }
     
-    private String setValue(value) {
+    private String setValue(string value) {
         mEditText.setText(value);
     }
 
