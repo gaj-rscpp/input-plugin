@@ -496,8 +496,11 @@ public class NativeInput extends CordovaPlugin {
     }
     
     private void setValue(CallbackContext callbackContext, JSONArray args) {
-        setValue(args.get(0).toString());
-        callbackContext.success();
+        try {
+            setValue(args.getString(0));
+        } catch (JSONException e) {
+            /*no action*/
+        }
     }
 
     private String getActionName(int actionId) {
