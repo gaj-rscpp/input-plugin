@@ -322,6 +322,12 @@ int RIGHT_BUTTON_ARG = 3;
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)setValue:(CDVInvokedUrlCommand*)command{
+    if([self isNotNull:[command.arguments objectAtIndex:0]]){
+        self.inputView.inputField.text = [[command.arguments objectAtIndex:0] stringValue];
+    }
+}
+
 -(void)sendOnChangeEvent{
     NSString* text = self.inputView.inputField.text;
     if([text isEqualToString:self.lastTextSentOnChange]){
