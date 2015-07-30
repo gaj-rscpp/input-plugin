@@ -346,8 +346,6 @@ public class NativeInput extends CordovaPlugin {
                     pluginResult.setKeepCallback(true);
                     mOnButtonActionCallback.sendPluginResult(pluginResult);
                 }
-                mEditText.setFocusableInTouchMode(true);
-                mEditText.requestFocus();
             }
         });
 
@@ -391,8 +389,6 @@ public class NativeInput extends CordovaPlugin {
                     pluginResult.setKeepCallback(true);
                     mOnButtonActionCallback.sendPluginResult(pluginResult);
                 }
-                mEditText.setFocusableInTouchMode(true);
-                mEditText.requestFocus();
             }
         });
 
