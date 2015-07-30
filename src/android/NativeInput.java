@@ -244,7 +244,7 @@ public class NativeInput extends CordovaPlugin {
     }
     
     private void setValue(String value) {
-        mEditText.setText(value);
+        mEditText.setText(value, TextView.BufferType.EDITABLE);
     }
 
     private void show(final CallbackContext callbackContext, final JSONArray args)
