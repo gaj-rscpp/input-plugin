@@ -83,16 +83,16 @@
     NSDictionary *metrics = @{};
     
     self.noButtonsConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[inputField]-8-|"
-                                                                        options:0 metrics:metrics views:viewsDictionary];
+                                                                        options:NSLayoutFormatAlignAllBottom metrics:metrics views:viewsDictionary];
     
     self.bothButtonsConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[leftButton]-8-[inputField]-8-[rightButton]-8-|"
-                                                                        options:0 metrics:metrics views:viewsDictionary];
-    
+                                                                        options:NSLayoutFormatAlignAllBottom metrics:metrics views:viewsDictionary];
+                                                                        
     self.leftConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[leftButton]-8-[inputField]-8-|"
-                                                                   options:0 metrics:metrics views:viewsDictionary];
+                                                                   options:NSLayoutFormatAlignAllBottom metrics:metrics views:viewsDictionary];
     
     self.rightConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[inputField]-8-[rightButton]-8-|"
-                                                                   options:0 metrics:metrics views:viewsDictionary];
+                                                                   options:NSLayoutFormatAlignAllBottom metrics:metrics views:viewsDictionary];
     
 }
 
