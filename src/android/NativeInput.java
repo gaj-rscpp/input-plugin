@@ -338,7 +338,7 @@ public class NativeInput extends CordovaPlugin {
         params.bottomMargin = 10;
 
         //mRightButton.setMinWidth(BUTTON_WIDTH);
-        mRightButton.setScaleType(mRightButton.ScaleType.FIT_CENTER);
+        mRightButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mPanel.addView(mRightButton, params);
 
         mRightButton.setOnClickListener(new View.OnClickListener() {
@@ -382,7 +382,7 @@ public class NativeInput extends CordovaPlugin {
         params.bottomMargin = 10;
 
         //mLeftButton.setMinWidth(BUTTON_WIDTH);
-        mLeftButton.setScaleType(mLeftButton.ScaleType.FIT_CENTER);
+        mLeftButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mPanel.addView(mLeftButton, 0, params);
 
         mLeftButton.setOnClickListener(new View.OnClickListener() {
