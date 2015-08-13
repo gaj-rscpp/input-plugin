@@ -30,6 +30,8 @@
 
 - (void)onChange:(CDVInvokedUrlCommand*)command;
 
+- (void)onFocus:(CDVInvokedUrlCommand*)command;
+
 - (void)getValue:(CDVInvokedUrlCommand*)command;
 
 - (void)setValue:(CDVInvokedUrlCommand*)command;
