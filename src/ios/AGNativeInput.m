@@ -348,9 +348,9 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 -(void)sendOnFocusEvent{
-    //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    //[pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:true callbackId:self.onFocusCallbackId];
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onFocusCallbackId];
 }
 
 //Method use to avoid sending too much events down the pipe for every key stroke
