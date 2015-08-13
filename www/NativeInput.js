@@ -37,6 +37,10 @@
   NativeInput.onChange = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "onChange", []);
   };
+  
+  NativeInput.onFocus = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onFocus", []);
+  };
 
   NativeInput.getValue = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "getValue", []);
