@@ -325,7 +325,7 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)setValue:(CDVInvokedUrlCommand*)command{
     if([self isNotNull:[command.arguments objectAtIndex:0]]){
-        self.inputView.inputField.text = [[command.arguments objectAtIndex:0] stringValue];
+        self.inputView.inputField.text = [command.arguments objectAtIndex:0];
     }
 }
 
