@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) NSString* onChangeCallbackId;
 
+@property (nonatomic, strong) NSString* onFocusCallbackId;
+
 @property (nonatomic, strong) NSString* onKeyboardActionCallbackId;
 
 @property (nonatomic, strong) NSString* onButtonActionCallbackId;
@@ -40,7 +42,7 @@ int INPUT_ARG = 1;
 int LEFT_BUTTON_ARG = 2;
 int RIGHT_BUTTON_ARG = 3;
 
-@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
+@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
 
 - (AGNativeInput*)initWithWebView:(UIWebView*)theWebView {
     self = (AGNativeInput*)[super initWithWebView:(UIWebView*)theWebView];
@@ -318,6 +320,10 @@ int RIGHT_BUTTON_ARG = 3;
     self.onChangeCallbackId = command.callbackId;
 }
 
+- (void)onFocus:(CDVInvokedUrlCommand*)command{
+    self.onFocusCallbackId = command.callbackId;
+}
+
 - (void)getValue:(CDVInvokedUrlCommand*)command{
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:self.inputView.inputField.text];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -339,6 +345,12 @@ int RIGHT_BUTTON_ARG = 3;
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:text];
     [pluginResult setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onChangeCallbackId];
+}
+
+-(void)sendOnFocusEvent{
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:text];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onFocusCallbackId];
 }
 
 //Method use to avoid sending too much events down the pipe for every key stroke
@@ -388,6 +400,14 @@ int RIGHT_BUTTON_ARG = 3;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if(self.onChangeCallbackId != nil){
         [self scheduleOnChangeDelivery];
+    }
+    return YES;
+}
+
+- (BOOL) textFieldShouldEndEditing:(UITextField *)textField {
+    NSLog(@"Lost Focus for content: %@", textField.text);
+    if(self.onFocusCallbackId != nil){
+        [self sendOnFocusEvent];
     }
     return YES;
 }
