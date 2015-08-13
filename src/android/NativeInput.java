@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -110,9 +110,9 @@ public class NativeInput extends CordovaPlugin {
 
     private LinearLayout mPanel;
 
-    private Button mLeftButton;
+    private ImageButton mLeftButton;
 
-    private Button mRightButton;
+    private ImageButton mRightButton;
 
     private boolean mAutoCloseKeyboard;
 
@@ -322,7 +322,7 @@ public class NativeInput extends CordovaPlugin {
     }
 
     private void addRightButton(JSONObject jsonObject, boolean hasLeftButton) throws JSONException {
-        mRightButton = new Button(webView.getContext());
+        mRightButton = new ImageButton(webView.getContext());
 
 
         float weight = hasLeftButton ? 2f : 1f;
@@ -366,7 +366,7 @@ public class NativeInput extends CordovaPlugin {
     }
 
     private void addLeftButton(JSONObject jsonObject, boolean hasRightButton) {
-        mLeftButton = new Button(webView.getContext());
+        mLeftButton = new ImageButton(webView.getContext());
 
         float weight = hasRightButton ? 2f : 1f;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
