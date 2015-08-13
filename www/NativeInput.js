@@ -42,8 +42,9 @@
     exec(cb, err, SERVICE_NAME, "getValue", []);
   };
 
-  NativeInput.setValue = function(value, cb, err) {
-    exec(cb, err, SERVICE_NAME, "setValue", [value]);
+  NativeInput.setValue = function(strText, cb, err) {
+    strText = strText || '';
+    exec(cb, err, SERVICE_NAME, "setValue", [strText]);
   };
 
   module.exports = NativeInput;
