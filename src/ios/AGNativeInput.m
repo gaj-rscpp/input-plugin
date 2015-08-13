@@ -135,6 +135,7 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 -(void)setInpuFieldOptions:(NSDictionary*)inputOptions {
+    inputView.inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     NSString* placeHolder = (NSString*)[inputOptions valueForKey:@"placeHolder"];
     inputView.inputField.placeholder = placeHolder;
