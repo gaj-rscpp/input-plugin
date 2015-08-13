@@ -416,7 +416,7 @@ int RIGHT_BUTTON_ARG = 3;
 
 -(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
     
-    CGFloat newY = self.superViewFrame.size.height - self.tabBarHeight - inputView.frame.size.height;
+    CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
     
     [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
