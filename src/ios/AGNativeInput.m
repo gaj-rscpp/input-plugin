@@ -478,7 +478,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     newY = 0 - keyboardSize.height - inputView.frame.size.height;
     
-    [self.webView moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [self moveWVToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
@@ -487,7 +487,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
-    [self.webView moveToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [self moveWVToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
@@ -497,6 +497,16 @@ int RIGHT_BUTTON_ARG = 3;
     [UIView setAnimationCurve:curve];
     [UIView setAnimationBeginsFromCurrentState:YES];
     inputView.frame = newFrame;
+    [UIView commitAnimations];
+}
+
+-(void)moveWVToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
+    CGRect newFrame = CGRectMake(self.webView.superview.frame.origin.x, newY, self.webView.superview.frame.size.width, self.webView.superview.frame.size.height);
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationCurve:curve];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    self.webView.superview.frame = newFrame;
     [UIView commitAnimations];
 }
 
