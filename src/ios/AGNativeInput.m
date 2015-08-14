@@ -472,20 +472,20 @@ int RIGHT_BUTTON_ARG = 3;
 -(void)moveToAboveKeyboard:(NSDictionary*)userInfo{
     CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGFloat newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
-    
-    [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    
-    newY = 0 - keyboardSize.height - inputView.frame.size.height;
+    CGFloat newY = 0 - keyboardSize.height;
     
     [self moveWVToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    
+    //newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
+    
+    //[self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
     
     CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
     
-    [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    //[self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
     [self moveWVToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
