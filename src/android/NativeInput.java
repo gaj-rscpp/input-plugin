@@ -153,6 +153,19 @@ public class NativeInput extends CordovaPlugin {
 
         }
     };
+    
+    private OnFocusChangeListener mTextFocusChangedListener = new OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+            pluginResult.setKeepCallback(true);
+            if(hasFocus){
+                if (mOnFocusCallback != null) mOnFocusCallback.sendPluginResult(pluginResult);
+            } else {
+                if (mOnBlurCallback != null) mOnBlurCallback.sendPluginResult(pluginResult);
+            }
+        }
+    };
 
     private TextView.OnEditorActionListener mKeyboardActionListener
             = new TextView.OnEditorActionListener() {
@@ -171,7 +184,7 @@ public class NativeInput extends CordovaPlugin {
             if (mAutoCloseKeyboard && !isNewLineAction) {
                 closeKeyboard();
             }
-            return false;
+            return true;
         }
     };
 
@@ -195,19 +208,8 @@ public class NativeInput extends CordovaPlugin {
         
         mEditText.addTextChangedListener(mTextChangedListener);
         
-        mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
-                pluginResult.setKeepCallback(true);
-                if(hasFocus){
-                    if (mOnFocusCallback != null) mOnFocusCallback.sendPluginResult(pluginResult);
-                } else {
-                    if (mOnBlurCallback != null) mOnBlurCallback.sendPluginResult(pluginResult);
-                }
-            }
-        });
-
+        mEditText.setOnFocusChangeListener(mTextFocusChangedListener);
+        
         mEditText.setOnEditorActionListener(mKeyboardActionListener);
     }
 
