@@ -34,6 +34,10 @@
 
 - (void)onBlur:(CDVInvokedUrlCommand*)command;
 
+- (void)onShow:(CDVInvokedUrlCommand*)command;
+
+- (void)onHide:(CDVInvokedUrlCommand*)command;
+
 - (void)getValue:(CDVInvokedUrlCommand*)command;
 
 - (void)setValue:(CDVInvokedUrlCommand*)command;
