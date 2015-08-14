@@ -460,7 +460,7 @@ int RIGHT_BUTTON_ARG = 3;
             [self closeKeyboard:nil];
         }
     }
-    return YES;
+    return NO;
 }
 
 #pragma Keyboard Events
