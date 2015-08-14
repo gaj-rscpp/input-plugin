@@ -476,7 +476,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
-    CGFloat newY = 0 - keyboardSize.height - inputView.frame.size.height;
+    newY = 0 - keyboardSize.height - inputView.frame.size.height;
     
     [self.webView moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
