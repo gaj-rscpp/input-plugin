@@ -198,6 +198,25 @@ public class NativeInput extends CordovaPlugin {
         mEditText.setPadding(8, 4, 8, 8);
 
         mEditText.addTextChangedListener(mTextChangedListener);
+        
+        mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus){
+                if (mOnFocusCallback != null) {
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, action);
+                    pluginResult.setKeepCallback(true);
+                    mOnFocusCallback.sendPluginResult(pluginResult);
+                }
+            } else {
+                if (mOnBlurCallback != null) {
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, action);
+                    pluginResult.setKeepCallback(true);
+                    mOnBlurCallback.sendPluginResult(pluginResult);
+                }
+            }
+           }
+        });
 
         mEditText.setOnEditorActionListener(mKeyboardActionListener);
     }
