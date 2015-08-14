@@ -32,6 +32,8 @@
 
 - (void)onFocus:(CDVInvokedUrlCommand*)command;
 
+- (void)onBlur:(CDVInvokedUrlCommand*)command;
+
 - (void)getValue:(CDVInvokedUrlCommand*)command;
 
 - (void)setValue:(CDVInvokedUrlCommand*)command;
