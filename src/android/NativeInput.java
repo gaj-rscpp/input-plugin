@@ -58,10 +58,6 @@ public class NativeInput extends CordovaPlugin {
     
     private static final String ON_BLUR = "onBlur";
     
-    private static final String ON_SHOW = "onShow";
-    
-    private static final String ON_HIDE = "onHide";
-
     private static final String ON_KEYBOARD_ACTION = "onKeyboardAction";
 
     private static final String GET_VALUE = "getValue";
@@ -116,10 +112,6 @@ public class NativeInput extends CordovaPlugin {
     
     private CallbackContext mOnBlurCallback;
     
-    private CallbackContext mOnShowCallback;
-    
-    private CallbackContext mOnHideCallback;
-
     private CallbackContext mOnKeyboardActionCallback;
 
     private CallbackContext mOnButtonActionCallback;
@@ -258,10 +250,6 @@ public class NativeInput extends CordovaPlugin {
             onFocus(callbackContext);
         }  else if (action.equals(ON_BLUR)) {
             onBlur(callbackContext);
-        }  else if (action.equals(ON_SHOW)) {
-            onShow(callbackContext);
-        }  else if (action.equals(ON_HIDE)) {
-            onHide(callbackContext);
         } else if (action.equals(ON_KEYBOARD_ACTION)) {
             onKeyboardAction(callbackContext, args);
         } else if (action.equals(ON_BUTTON_ACTION)) {
@@ -545,14 +533,6 @@ public class NativeInput extends CordovaPlugin {
         mOnBlurCallback = callbackContext;
     }
     
-    private void onShow(CallbackContext callbackContext) {
-        mOnShowCallback = callbackContext;
-    }
-    
-    private void onHide(CallbackContext callbackContext) {
-        mOnHideCallback = callbackContext;
-    }
-
     private void getValue(CallbackContext callbackContext) {
         String value = getValue();
         callbackContext.success(value);
