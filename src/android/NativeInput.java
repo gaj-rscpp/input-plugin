@@ -366,6 +366,7 @@ public class NativeInput extends CordovaPlugin {
         params.bottomMargin = 10;
 
         //mRightButton.setMinWidth(BUTTON_WIDTH);
+        mRightButton.setBackgroundColor(Color.TRANSPARENT);
         mRightButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mPanel.addView(mRightButton, params);
 
@@ -410,6 +411,7 @@ public class NativeInput extends CordovaPlugin {
         params.bottomMargin = 10;
 
         //mLeftButton.setMinWidth(BUTTON_WIDTH);
+        mLeftButton.setBackgroundColor(Color.TRANSPARENT);
         mLeftButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mPanel.addView(mLeftButton, 0, params);
 
