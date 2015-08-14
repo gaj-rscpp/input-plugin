@@ -469,8 +469,8 @@ public class NativeInput extends CordovaPlugin {
         return maxLines;
     }
     
-    private int getActionText(JSONObject inputArgs) throws JSONException {
-        int actionText = 'SEND';
+    private String getActionText(JSONObject inputArgs) throws JSONException {
+        String actionText = 'SEND';
         if (!inputArgs.isNull(ACTION_TEXT)) {
             actionText = inputArgs.getString(ACTION_TEXT);
         }
