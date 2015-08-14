@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -192,16 +193,16 @@ public class NativeInput extends CordovaPlugin {
         mEditText.addTextChangedListener(mTextChangedListener);
         
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
-            pluginResult.setKeepCallback(true);
-            if(hasFocus){
-                if (mOnFocusCallback != null) mOnFocusCallback.sendPluginResult(pluginResult);
-            } else {
-                if (mOnBlurCallback != null) mOnBlurCallback.sendPluginResult(pluginResult);
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+                pluginResult.setKeepCallback(true);
+                if(hasFocus){
+                    if (mOnFocusCallback != null) mOnFocusCallback.sendPluginResult(pluginResult);
+                } else {
+                    if (mOnBlurCallback != null) mOnBlurCallback.sendPluginResult(pluginResult);
+                }
             }
-           }
         });
 
         mEditText.setOnEditorActionListener(mKeyboardActionListener);
