@@ -31,6 +31,8 @@
 
 @property (nonatomic, strong) NSString* onButtonActionCallbackId;
 
+@property (nonatomic) CGFloat originalHeight;
+
 @property (nonatomic) CGFloat originalLeftXPosition;
 
 @property (nonatomic) BOOL autoCloseKeyboard;
@@ -47,7 +49,7 @@ int INPUT_ARG = 1;
 int LEFT_BUTTON_ARG = 2;
 int RIGHT_BUTTON_ARG = 3;
 
-@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onBlurCallbackId, onShowCallbackId, onHideCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
+@synthesize inputView, webViewOriginalBaseScrollInsets, originalHeight, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onBlurCallbackId, onShowCallbackId, onHideCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
 
 - (AGNativeInput*)initWithWebView:(UIWebView*)theWebView {
     self = (AGNativeInput*)[super initWithWebView:(UIWebView*)theWebView];
@@ -472,9 +474,10 @@ int RIGHT_BUTTON_ARG = 3;
 -(void)moveToAboveKeyboard:(NSDictionary*)userInfo{
     CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGFloat newY = 0 - keyboardSize.height;
+    self.originalHeight = self.superViewFrame.size.height;
+    CGFloat newHeight = self.superViewFrame.size.height - keyboardSize.height;
     
-    [self moveWVToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [self moveWVToYPosition:newHeight animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
     //newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
     
@@ -483,11 +486,11 @@ int RIGHT_BUTTON_ARG = 3;
 
 -(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
     
-    CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
+    //CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
     
     //[self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
-    [self moveWVToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [self moveWVToYPosition:self.originalHeight animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
@@ -500,13 +503,13 @@ int RIGHT_BUTTON_ARG = 3;
     [UIView commitAnimations];
 }
 
--(void)moveWVToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
-    CGRect newFrame = CGRectMake(self.superViewFrame.origin.x, newY, self.superViewFrame.size.width, self.superViewFrame.size.height);
+-(void)moveWVToYPosition:(CGFloat)newHeight animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
+    CGRect newFrame = CGRectMake(self.superViewFrame.origin.x, self.superViewFrame.origin.y, self.superViewFrame.size.width, newHeight);
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
     [UIView setAnimationCurve:curve];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    self.superViewFrame = newFrame;
+    self.webView.superview.frame = newFrame;
     [UIView commitAnimations];
 }
 
