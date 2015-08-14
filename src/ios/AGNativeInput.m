@@ -501,12 +501,12 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 -(void)moveWVToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
-    CGRect newFrame = CGRectMake(self.webView.superview.frame.origin.x, newY, self.webView.superview.frame.size.width, self.webView.superview.frame.size.height);
+    CGRect newFrame = CGRectMake(self.superViewFrame.origin.x, newY, self.superViewFrame.size.width, self.superViewFrame.size.height);
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
     [UIView setAnimationCurve:curve];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    self.webView.superview.frame = newFrame;
+    self.superViewFrame = newFrame;
     [UIView commitAnimations];
 }
 
