@@ -194,18 +194,12 @@ public class NativeInput extends CordovaPlugin {
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+            pluginResult.setKeepCallback(true);
             if(hasFocus){
-                if (mOnFocusCallback != null) {
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, action);
-                    pluginResult.setKeepCallback(true);
-                    mOnFocusCallback.sendPluginResult(pluginResult);
-                }
+                if (mOnFocusCallback != null) mOnFocusCallback.sendPluginResult(pluginResult);
             } else {
-                if (mOnBlurCallback != null) {
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, action);
-                    pluginResult.setKeepCallback(true);
-                    mOnBlurCallback.sendPluginResult(pluginResult);
-                }
+                if (mOnBlurCallback != null) mOnBlurCallback.sendPluginResult(pluginResult);
             }
            }
         });
