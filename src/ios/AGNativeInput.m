@@ -23,6 +23,10 @@
 
 @property (nonatomic, strong) NSString* onBlurCallbackId;
 
+@property (nonatomic, strong) NSString* onShowCallbackId;
+
+@property (nonatomic, strong) NSString* onHideCallbackId;
+
 @property (nonatomic, strong) NSString* onKeyboardActionCallbackId;
 
 @property (nonatomic, strong) NSString* onButtonActionCallbackId;
@@ -43,7 +47,7 @@ int INPUT_ARG = 1;
 int LEFT_BUTTON_ARG = 2;
 int RIGHT_BUTTON_ARG = 3;
 
-@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onBlurCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
+@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onBlurCallbackId, onShowCallbackId, onHideCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
 
 - (AGNativeInput*)initWithWebView:(UIWebView*)theWebView {
     self = (AGNativeInput*)[super initWithWebView:(UIWebView*)theWebView];
@@ -329,6 +333,14 @@ int RIGHT_BUTTON_ARG = 3;
     self.onBlurCallbackId = command.callbackId;
 }
 
+- (void)onShow:(CDVInvokedUrlCommand*)command{
+    self.onShowCallbackId = command.callbackId;
+}
+
+- (void)onHide:(CDVInvokedUrlCommand*)command{
+    self.onHideCallbackId = command.callbackId;
+}
+
 - (void)getValue:(CDVInvokedUrlCommand*)command{
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:self.inputView.inputField.text];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -362,6 +374,18 @@ int RIGHT_BUTTON_ARG = 3;
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onBlurCallbackId];
+}
+
+-(void)sendOnShowEvent{
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onShowCallbackId];
+}
+
+-(void)sendOnHideEvent{
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onHideCallbackId];
 }
 
 //Method use to avoid sending too much events down the pipe for every key stroke
@@ -416,7 +440,6 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 - (BOOL) textFieldShouldEndEditing:(UITextField *)textField {
-    NSLog(@"Lost Focus for content: %@", textField.text);
     if(self.onBlurCallbackId != nil){
         [self sendOnBlurEvent];
     }
@@ -424,7 +447,6 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 - (BOOL) textFieldShouldStartEditing:(UITextField *)textField {
-    NSLog(@"Focus for content: %@", textField.text);
     if(self.onFocusCallbackId != nil){
         [self sendOnFocusEvent];
     }
@@ -473,11 +495,17 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
+    if(self.onHideCallbackId != nil){
+        [self sendOnHideEvent];
+    }
     [self moveToBelowKeyboard:notification.userInfo];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    if(self.onShowCallbackId != nil){
+        [self sendOnShowEvent];
+    }
     [self moveToAboveKeyboard:notification.userInfo];
 }
 
