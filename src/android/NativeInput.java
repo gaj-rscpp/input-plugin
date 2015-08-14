@@ -89,6 +89,8 @@ public class NativeInput extends CordovaPlugin {
     private static final String LEFT = "left";
 
     private static final String LINES = "lines";
+    
+    private static final String ACTION_TEXT = "action_text";
 
     private static final String TYPE = "type";
 
@@ -191,8 +193,6 @@ public class NativeInput extends CordovaPlugin {
 
         mEditText.setPadding(8, 4, 8, 8);
         
-        mEditText.setImeActionLabel("SEND", KeyEvent.KEYCODE_ENTER);
-
         mEditText.addTextChangedListener(mTextChangedListener);
         
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -332,7 +332,10 @@ public class NativeInput extends CordovaPlugin {
         mEditText.setInputType(getInputType(inputArgs));
 
         mEditText.setHint(getPlaceholderText(inputArgs));
-
+        
+        String actionText = getActionText(inputArgs);
+        mEditText.setImeActionLabel(actionText, KeyEvent.KEYCODE_ENTER);
+        
         int maxLines = getMaxLines(inputArgs);
         mEditText.setMaxLines(maxLines);
         if (maxLines > 1) {
@@ -462,6 +465,14 @@ public class NativeInput extends CordovaPlugin {
             maxLines = inputArgs.getInt(LINES);
         }
         return maxLines;
+    }
+    
+    private int getActionText(JSONObject inputArgs) throws JSONException {
+        int actionText = 'SEND';
+        if (!inputArgs.isNull(ACTION_TEXT)) {
+            actionText = inputArgs.getString(ACTION_TEXT);
+        }
+        return actionText;
     }
 
     private boolean find(String text, JSONArray array) throws JSONException {
