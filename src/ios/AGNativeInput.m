@@ -6,7 +6,6 @@
 //  AGInputView.m
 //  AppGyver
 //
-//  Created by Rafael Almeida on 6/07/15.
 //  Copyright (c) 2015 AppGyver Inc. All rights reserved.
 //
 
@@ -21,6 +20,8 @@
 @property (nonatomic, strong) NSString* onChangeCallbackId;
 
 @property (nonatomic, strong) NSString* onFocusCallbackId;
+
+@property (nonatomic, strong) NSString* onBlurCallbackId;
 
 @property (nonatomic, strong) NSString* onKeyboardActionCallbackId;
 
@@ -42,7 +43,7 @@ int INPUT_ARG = 1;
 int LEFT_BUTTON_ARG = 2;
 int RIGHT_BUTTON_ARG = 3;
 
-@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
+@synthesize inputView, webViewOriginalBaseScrollInsets, originalLeftXPosition, lastOnChange, lastTextSentOnChange, onChangeCallbackId, onFocusCallbackId, onBlurCallbackId, onKeyboardActionCallbackId, onButtonActionCallbackId, autoCloseKeyboard;
 
 - (AGNativeInput*)initWithWebView:(UIWebView*)theWebView {
     self = (AGNativeInput*)[super initWithWebView:(UIWebView*)theWebView];
@@ -324,6 +325,10 @@ int RIGHT_BUTTON_ARG = 3;
     self.onFocusCallbackId = command.callbackId;
 }
 
+- (void)onBlur:(CDVInvokedUrlCommand*)command{
+    self.onBlurCallbackId = command.callbackId;
+}
+
 - (void)getValue:(CDVInvokedUrlCommand*)command{
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:self.inputView.inputField.text];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -351,6 +356,12 @@ int RIGHT_BUTTON_ARG = 3;
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onFocusCallbackId];
+}
+
+-(void)sendOnBlurEvent{
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.onBlurCallbackId];
 }
 
 //Method use to avoid sending too much events down the pipe for every key stroke
@@ -406,6 +417,14 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (BOOL) textFieldShouldEndEditing:(UITextField *)textField {
     NSLog(@"Lost Focus for content: %@", textField.text);
+    if(self.onBlurCallbackId != nil){
+        [self sendOnBlurEvent];
+    }
+    return YES;
+}
+
+- (BOOL) textFieldShouldStartEditing:(UITextField *)textField {
+    NSLog(@"Focus for content: %@", textField.text);
     if(self.onFocusCallbackId != nil){
         [self sendOnFocusEvent];
     }
