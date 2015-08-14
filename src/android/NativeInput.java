@@ -25,6 +25,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.graphics.Color;
 
 /**
  * Native Input Plugin main class.
