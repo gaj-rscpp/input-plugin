@@ -190,6 +190,8 @@ public class NativeInput extends CordovaPlugin {
         AGStyler.setStyleClass(mEditText, NATIVE_INPUT);
 
         mEditText.setPadding(8, 4, 8, 8);
+        
+        mEditText.setImeActionLabel("SEND", KeyEvent.KEYCODE_ENTER);
 
         mEditText.addTextChangedListener(mTextChangedListener);
         
