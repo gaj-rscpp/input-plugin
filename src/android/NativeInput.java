@@ -53,6 +53,14 @@ public class NativeInput extends CordovaPlugin {
     private static final String HIDE = "hide";
 
     private static final String ON_CHANGE = "onChange";
+    
+    private static final String ON_FOCUS = "onFocus";
+    
+    private static final String ON_BLUR = "onBlur";
+    
+    private static final String ON_SHOW = "onShow";
+    
+    private static final String ON_HIDE = "onHide";
 
     private static final String ON_KEYBOARD_ACTION = "onKeyboardAction";
 
@@ -103,6 +111,14 @@ public class NativeInput extends CordovaPlugin {
     private static final String NEWLINE = "newline";
 
     private CallbackContext mOnChangeCallback;
+    
+    private CallbackContext mOnFocusCallback;
+    
+    private CallbackContext mOnBlurCallback;
+    
+    private CallbackContext mOnShowCallback;
+    
+    private CallbackContext mOnHideCallback;
 
     private CallbackContext mOnKeyboardActionCallback;
 
@@ -219,6 +235,14 @@ public class NativeInput extends CordovaPlugin {
             hide(callbackContext);
         } else if (action.equals(ON_CHANGE)) {
             onChange(callbackContext);
+        } else if (action.equals(ON_FOCUS)) {
+            onFocus(callbackContext);
+        }  else if (action.equals(ON_BLUR)) {
+            onBlur(callbackContext);
+        }  else if (action.equals(ON_SHOW)) {
+            onShow(callbackContext);
+        }  else if (action.equals(ON_HIDE)) {
+            onHide(callbackContext);
         } else if (action.equals(ON_KEYBOARD_ACTION)) {
             onKeyboardAction(callbackContext, args);
         } else if (action.equals(ON_BUTTON_ACTION)) {
@@ -492,6 +516,22 @@ public class NativeInput extends CordovaPlugin {
 
     private void onChange(CallbackContext callbackContext) {
         mOnChangeCallback = callbackContext;
+    }
+    
+    private void onFocus(CallbackContext callbackContext) {
+        mOnFocusCallback = callbackContext;
+    }
+    
+    private void onBlur(CallbackContext callbackContext) {
+        mOnBlurCallback = callbackContext;
+    }
+    
+    private void onShow(CallbackContext callbackContext) {
+        mOnShowCallback = callbackContext;
+    }
+    
+    private void onHide(CallbackContext callbackContext) {
+        mOnHideCallback = callbackContext;
     }
 
     private void getValue(CallbackContext callbackContext) {
