@@ -475,6 +475,10 @@ int RIGHT_BUTTON_ARG = 3;
     CGFloat newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
     
     [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    
+    CGFloat newY = 0 - keyboardSize.height - inputView.frame.size.height;
+    
+    [self.webView moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
@@ -482,6 +486,8 @@ int RIGHT_BUTTON_ARG = 3;
     CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
     
     [self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    
+    [self.webView moveToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 }
 
 -(void)moveToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
