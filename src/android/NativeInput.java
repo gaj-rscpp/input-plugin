@@ -470,11 +470,7 @@ public class NativeInput extends CordovaPlugin {
     }
     
     private String getActionText(JSONObject inputArgs) throws JSONException {
-        String actionText = "SEND";
-        if (!inputArgs.isNull(ACTION_TEXT)) {
-            actionText = inputArgs.getString(ACTION_TEXT);
-        }
-        return actionText;
+        return inputArgs.optString(ACTION_TEXT, "SEND");
     }
 
     private boolean find(String text, JSONArray array) throws JSONException {
