@@ -218,9 +218,9 @@ public class NativeInput extends CordovaPlugin {
                 weight);
         params.leftMargin = 10;
         params.rightMargin = 10;
-        params.topMargin = 6;
+        params.topMargin = 12;
         params.bottomMargin = 10;
-
+        
         mPanel.addView(mEditText, params);
     }
 
@@ -308,7 +308,9 @@ public class NativeInput extends CordovaPlugin {
         }
 
         AGStyler.updateStyle(mEditText);
-
+        AGStyler.updateStyle(mLeftButton);
+        AGStyler.updateStyle(mRightButton);
+        
         callbackContext.success();
     }
 
