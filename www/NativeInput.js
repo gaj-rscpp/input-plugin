@@ -45,6 +45,14 @@
   NativeInput.onBlur = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "onBlur", []);
   };
+  
+  NativeInput.onShow = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onShow", []);
+  };
+  
+  NativeInput.onHide = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onHide", []);
+  };
 
   NativeInput.getValue = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "getValue", []);
