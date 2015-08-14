@@ -41,6 +41,10 @@
   NativeInput.onFocus = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "onFocus", []);
   };
+  
+  NativeInput.onBlur = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "onBlur", []);
+  };
 
   NativeInput.getValue = function(cb, err) {
     exec(cb, err, SERVICE_NAME, "getValue", []);
