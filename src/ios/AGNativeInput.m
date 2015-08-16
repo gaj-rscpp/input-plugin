@@ -490,7 +490,7 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)keyboardFrameWillChange:(NSNotification *)notification
 {
-    CGRect initialRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    /*CGRect initialRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     CGFloat initialHeight = self.webView.superview.frame.size.height - [self.webView.superview convertRect:initialRect fromView:nil].origin.y;
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat newHeight = self.webView.superview.frame.size.height - [self.webView.superview convertRect:keyboardRect fromView:nil].origin.y;
@@ -501,9 +501,9 @@ int RIGHT_BUTTON_ARG = 3;
     [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [self.webView.superview layoutIfNeeded];
-    [UIView commitAnimations];
+    [UIView commitAnimations];*/
     
-    /*CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     
     [UIView beginAnimations:nil context:nil];
@@ -517,7 +517,7 @@ int RIGHT_BUTTON_ARG = 3;
     newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
     self.webView.frame = newFrame;
 
-    [UIView commitAnimations];*/
+    [UIView commitAnimations];
 }
 
 - (void) dealloc
