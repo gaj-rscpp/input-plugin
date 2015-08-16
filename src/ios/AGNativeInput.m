@@ -490,14 +490,25 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)keyboardFrameWillChange:(NSNotification *)notification
 {
-    CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    UIViewAnimationCurve animationCurve = [[[notification userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
-    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
-
+    CGRect initialRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGFloat initialHeight = self.superViewFrame.size.height - [self.view convertRect:initialRect fromView:nil].origin.y;
+    CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat newHeight = self.superViewFrame.size.height - [self.view convertRect:keyboardRect fromView:nil].origin.y;
+    //set your constraints here, based on initialHeight and newHeight, which are the heights of the keyboard before & after animation.
+    [self.webView.superview setNeedsUpdateConstraints];
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.webView.superview layoutIfNeeded];
+    [UIView commitAnimations];
+    
+    /*CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 
     CGRect newFrame = self.superViewFrame;
     CGRect keyboardFrameEnd = [self.webView.superview convertRect:keyboardEndFrame toView:nil];
@@ -506,7 +517,15 @@ int RIGHT_BUTTON_ARG = 3;
     newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
     self.webView.superview.frame = newFrame;
 
-    [UIView commitAnimations];
+    [UIView commitAnimations];*/
+}
+
+- (void) dealloc
+{
+	self.inputView = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 @end
