@@ -491,16 +491,16 @@ int RIGHT_BUTTON_ARG = 3;
 - (void)keyboardFrameWillChange:(NSNotification *)notification
 {
     CGRect initialRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    CGFloat initialHeight = self.webView.frame.size.height - [self.webView convertRect:initialRect fromView:nil].origin.y;
+    CGFloat initialHeight = self.webView.superview.frame.size.height - [self.webView.superview convertRect:initialRect fromView:nil].origin.y;
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat newHeight = self.webView.frame.size.height - [self.webView convertRect:keyboardRect fromView:nil].origin.y;
+    CGFloat newHeight = self.webView.superview.frame.size.height - [self.webView.superview convertRect:keyboardRect fromView:nil].origin.y;
     //set your constraints here, based on initialHeight and newHeight, which are the heights of the keyboard before & after animation.
-    [self.webView setNeedsUpdateConstraints];
+    [self.webView.superview setNeedsUpdateConstraints];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
     [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [self.webView layoutIfNeeded];
+    [self.webView.superview layoutIfNeeded];
     [UIView commitAnimations];
     
     /*CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
