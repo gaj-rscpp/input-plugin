@@ -476,6 +476,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     self.webView.superview.translatesAutoresizingMaskIntoConstraints = YES;
     [self moveWVToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    self.webView.superview.translatesAutoresizingMaskIntoConstraints = NO;
     
     //CGFloat newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
     //newY = inputView.frame.size.Y - keyboardSize.height - inputView.frame.size.height;
@@ -492,6 +493,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     self.webView.superview.translatesAutoresizingMaskIntoConstraints = YES;
     [self moveWVToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    self.webView.superview.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 -(void)moveToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
