@@ -500,8 +500,8 @@ int RIGHT_BUTTON_ARG = 3;
     [UIView setAnimationCurve:animationCurve];
 
     CGRect newFrame = self.superViewFrame;
-    CGRect keyboardFrameEnd = [self.view convertRect:keyboardEndFrame toView:nil];
-    CGRect keyboardFrameBegin = [self.view convertRect:keyboardBeginFrame toView:nil];
+    CGRect keyboardFrameEnd = [self.webView.superview convertRect:keyboardEndFrame toView:nil];
+    CGRect keyboardFrameBegin = [self.webView.superview convertRect:keyboardBeginFrame toView:nil];
 
     newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
     self.webView.superview.frame = newFrame;
