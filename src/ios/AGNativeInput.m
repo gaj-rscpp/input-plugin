@@ -92,6 +92,11 @@ int RIGHT_BUTTON_ARG = 3;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    // register for keyboard notifications                                           
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                            selector:@selector(keyboardFrameWillChange:)
+                                                 name:UIKeyboardWillChangeFrameNotification 
+                                                object:nil];
 }
 
 -(int)inputViewHeight{
@@ -469,59 +474,11 @@ int RIGHT_BUTTON_ARG = 3;
     return self.webViewController.tabBarHeight;
 }
 
--(void)moveToAboveKeyboard:(NSDictionary*)userInfo{
-    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    CGFloat newY = 0 - keyboardSize.height;
-    
-    self.webView.superview.translatesAutoresizingMaskIntoConstraints = YES;
-    [self moveWVToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    self.webView.superview.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    //CGFloat newY = self.superViewFrame.size.height - keyboardSize.height - inputView.frame.size.height;
-    //newY = inputView.frame.size.Y - keyboardSize.height - inputView.frame.size.height;
-    
-    //[self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-}
-
--(void)moveToBelowKeyboard:(NSDictionary*)userInfo{
-    
-    //CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
-    //CGFloat newY = self.superViewFrame.size.height - inputView.frame.size.height;
-    
-    //[self moveToYPosition:newY animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    
-    self.webView.superview.translatesAutoresizingMaskIntoConstraints = YES;
-    [self moveWVToYPosition:0 animationDuration:[userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue] animationCurve:[userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    self.webView.superview.translatesAutoresizingMaskIntoConstraints = NO;
-}
-
--(void)moveToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
-    CGRect newFrame = CGRectMake(inputView.frame.origin.x, newY, inputView.frame.size.width, inputView.frame.size.height);
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationCurve:curve];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    inputView.frame = newFrame;
-    [UIView commitAnimations];
-}
-
--(void)moveWVToYPosition:(CGFloat)newY animationDuration:(NSTimeInterval)duration animationCurve:(NSTimeInterval)curve{
-    CGRect newFrame = CGRectMake(self.superViewFrame.origin.x, newY, self.superViewFrame.size.width, self.superViewFrame.size.height);
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationCurve:curve];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    self.webView.superview.frame = newFrame;
-    [UIView commitAnimations];
-}
-
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     if(self.onHideCallbackId != nil){
         [self sendOnHideEvent];
     }
-    [self moveToBelowKeyboard:notification.userInfo];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -529,7 +486,27 @@ int RIGHT_BUTTON_ARG = 3;
     if(self.onShowCallbackId != nil){
         [self sendOnShowEvent];
     }
-    [self moveToAboveKeyboard:notification.userInfo];
+}
+
+- (void)keyboardFrameWillChange:(NSNotification *)notification
+{
+    CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    UIViewAnimationCurve animationCurve = [[[notification userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    NSTimeInterval animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+
+    CGRect newFrame = self.superViewFrame;
+    CGRect keyboardFrameEnd = [self.view convertRect:keyboardEndFrame toView:nil];
+    CGRect keyboardFrameBegin = [self.view convertRect:keyboardBeginFrame toView:nil];
+
+    newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
+    self.webView.superview.frame = newFrame;
+
+    [UIView commitAnimations];
 }
 
 @end
