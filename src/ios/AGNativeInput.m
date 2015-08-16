@@ -491,16 +491,16 @@ int RIGHT_BUTTON_ARG = 3;
 - (void)keyboardFrameWillChange:(NSNotification *)notification
 {
     CGRect initialRect = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    CGFloat initialHeight = self.superViewFrame.size.height - [self.view convertRect:initialRect fromView:nil].origin.y;
+    CGFloat initialHeight = self.webView.frame.size.height - [self.webView convertRect:initialRect fromView:nil].origin.y;
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat newHeight = self.superViewFrame.size.height - [self.view convertRect:keyboardRect fromView:nil].origin.y;
+    CGFloat newHeight = self.webView.frame.size.height - [self.webView convertRect:keyboardRect fromView:nil].origin.y;
     //set your constraints here, based on initialHeight and newHeight, which are the heights of the keyboard before & after animation.
-    [self.webView.superview setNeedsUpdateConstraints];
+    [self.webView setNeedsUpdateConstraints];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
     [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [self.webView.superview layoutIfNeeded];
+    [self.webView layoutIfNeeded];
     [UIView commitAnimations];
     
     /*CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -510,12 +510,12 @@ int RIGHT_BUTTON_ARG = 3;
     [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
     [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 
-    CGRect newFrame = self.superViewFrame;
-    CGRect keyboardFrameEnd = [self.webView.superview convertRect:keyboardEndFrame toView:nil];
-    CGRect keyboardFrameBegin = [self.webView.superview convertRect:keyboardBeginFrame toView:nil];
+    CGRect newFrame = self.webView.frame;
+    CGRect keyboardFrameEnd = [self.webView convertRect:keyboardEndFrame toView:nil];
+    CGRect keyboardFrameBegin = [self.webView convertRect:keyboardBeginFrame toView:nil];
 
     newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
-    self.webView.superview.frame = newFrame;
+    self.webView.frame = newFrame;
 
     [UIView commitAnimations];*/
 }
