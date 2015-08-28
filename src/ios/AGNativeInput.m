@@ -243,7 +243,7 @@ int RIGHT_BUTTON_ARG = 3;
     
 }
 
--(void)addInputViewTpSuperView{
+-(void)addInputViewToSuperView{
     
     if([self.webView.superview.subviews containsObject:self.inputView]){
         return;
@@ -264,10 +264,10 @@ int RIGHT_BUTTON_ARG = 3;
                                                                                              options:0 metrics:metrics views:viewsDictionary]];
 }
 
-- (void)show:(CDVInvokedUrlCommand*)command{
+- (void)setup:(CDVInvokedUrlCommand*)command{
     
     [self increateWebViewBaseScrollInsets];
-    [self addInputViewTpSuperView];
+    [self addInputViewToSuperView];
     
     self.inputView.hidden = NO;
     
@@ -303,6 +303,23 @@ int RIGHT_BUTTON_ARG = 3;
     else{
         [self.inputView hideButtons];
     }
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void)show:(CDVInvokedUrlCommand*)command{
+    if(command.arguments.count > 0 && [self isNotNull:[command.arguments objectAtIndex:0]]){
+        NSString* value = [command.arguments objectAtIndex:0];
+        self.inputView.inputField.text = value;
+    }
+    
+    [self addInputViewToSuperView];
+    
+    self.inputView.hidden = NO;
+    
+    [inputView.inputField becomeFirstResponder];
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void)hide:(CDVInvokedUrlCommand*)command{
@@ -320,7 +337,7 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)onKeyboardAction:(CDVInvokedUrlCommand*)command{
     
-    if([self isNotNull:[command.arguments objectAtIndex:0]]){
+    if(command.arguments.count > 0 && [self isNotNull:[command.arguments objectAtIndex:0]]){
         self.autoCloseKeyboard = [[command.arguments objectAtIndex:0] boolValue];
     }
     
@@ -353,8 +370,14 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 - (void)setValue:(CDVInvokedUrlCommand*)command{
-    if([self isNotNull:[command.arguments objectAtIndex:0]]){
-        self.inputView.inputField.text = [command.arguments objectAtIndex:0];
+    if(command.arguments.count > 0 && [self isNotNull:[command.arguments objectAtIndex:0]]){
+        NSString* value = [command.arguments objectAtIndex:0];
+        self.inputView.inputField.text = value;
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    }
+    else{
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Parameter required!"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }
 }
 
