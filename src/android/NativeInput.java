@@ -64,6 +64,8 @@ public class NativeInput extends CordovaPlugin {
     
     private static final String ON_BLUR = "onBlur";
     
+    private static final String ON_HIDE = "onHide";
+    
     private static final String ON_KEYBOARD_ACTION = "onKeyboardAction";
 
     private static final String GET_VALUE = "getValue";
@@ -280,6 +282,8 @@ public class NativeInput extends CordovaPlugin {
             onFocus(callbackContext);
         }  else if (action.equals(ON_BLUR)) {
             onBlur(callbackContext);
+        }  else if (action.equals(ON_HIDE)) {
+            onHide(callbackContext);
         } else if (action.equals(ON_KEYBOARD_ACTION)) {
             onKeyboardAction(callbackContext, args);
         } else if (action.equals(ON_BUTTON_ACTION)) {
@@ -561,7 +565,7 @@ public class NativeInput extends CordovaPlugin {
         mOnButtonActionCallback = callbackContext;
     }
     
-    private void onKeyboardClose(CallbackContext callbackContext, JSONArray args) {
+    private void onHide(CallbackContext callbackContext, JSONArray args) {
         mOnKeyboardCloseCallback = callbackContext;
     }
 
