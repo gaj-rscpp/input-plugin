@@ -265,11 +265,7 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 - (void)setup:(CDVInvokedUrlCommand*)command{
-    
-    [self increateWebViewBaseScrollInsets];
     [self addInputViewToSuperView];
-    
-    self.inputView.hidden = NO;
     
     if([self isValidDictionaryWithValues:[command.arguments objectAtIndex:PANEL_ARG]]){
         NSDictionary* inputOptions = (NSDictionary*)[command.arguments objectAtIndex:INPUT_ARG];
