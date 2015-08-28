@@ -121,6 +121,8 @@ public class NativeInput extends CordovaPlugin {
     private CallbackContext mOnBlurCallback;
     
     private CallbackContext mOnKeyboardActionCallback;
+    
+    private CallbackContext mOnKeyboardCloseCallback;
 
     private CallbackContext mOnButtonActionCallback;
 
@@ -558,14 +560,13 @@ public class NativeInput extends CordovaPlugin {
     private void onButtonAction(CallbackContext callbackContext) {
         mOnButtonActionCallback = callbackContext;
     }
+    
+    private void onKeyboardClose(CallbackContext callbackContext, JSONArray args) {
+        mOnKeyboardCloseCallback = callbackContext;
+    }
 
     private void onKeyboardAction(CallbackContext callbackContext, JSONArray args) {
-        try {
-            mAutoCloseKeyboard = true;
-            mAutoCloseKeyboard = args.getBoolean(AUTO_CLOSE_KEYBOARD);
-        } catch (JSONException e) {
-            /*no action*/
-        }
+        mAutoCloseKeyboard = args.optBoolean(AUTO_CLOSE_KEYBOARD, true);
         mOnKeyboardActionCallback = callbackContext;
     }
 
