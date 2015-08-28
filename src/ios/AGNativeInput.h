@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) AGInputView *inputView;
 
+- (void)setup:(CDVInvokedUrlCommand*)command;
 
 - (void)show:(CDVInvokedUrlCommand*)command;
 
