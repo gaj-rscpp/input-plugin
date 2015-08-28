@@ -7,14 +7,18 @@
       SERVICE_NAME = "NativeInput" ,
       NativeInput = {};
 
-  NativeInput.show = function(params, cb, err) {
+  NativeInput.setup = function(params, cb, err) {
 
     params = params || {};
 
-    exec(cb, err, SERVICE_NAME, "show", [params.panel,
+    exec(cb, err, SERVICE_NAME, "setup", [params.panel,
                                             params.input,
                                             params.leftButton,
                                             params.rightButton]);
+  };
+  
+  NativeInput.show = function(text, cb, err) {
+    exec(cb, err, SERVICE_NAME, "show", [text]);
   };
 
   NativeInput.closeKeyboard = function(cb, err) {
