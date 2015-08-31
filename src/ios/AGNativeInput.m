@@ -313,7 +313,7 @@ int RIGHT_BUTTON_ARG = 3;
     
     self.inputView.hidden = NO;
     
-    [inputView.inputField becomeFirstResponder];
+    //[inputView.inputField becomeFirstResponder];
     
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
