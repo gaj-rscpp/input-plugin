@@ -17,6 +17,10 @@
                                             params.rightButton]);
   };
   
+  NativeInput.showKeyboard = function(cb, err) {
+    exec(cb, err, SERVICE_NAME, "showKeyboard", []);
+  };
+  
   NativeInput.show = function(text, cb, err) {
     exec(cb, err, SERVICE_NAME, "show", [text]);
   };
