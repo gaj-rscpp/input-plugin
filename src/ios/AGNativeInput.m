@@ -295,12 +295,17 @@ int RIGHT_BUTTON_ARG = 3;
 
 -(BOOL)shouldAddTabBarHeightToInsets{
     return (! self.webViewController.navigationController.tabBarController.tabBar.hidden &&
-            ! self.webViewController.containerViewController.hidesBottomBarWhenPushed &&
+            //! self.webViewController.containerViewController.hidesBottomBarWhenPushed &&
             self.webViewController.navigationController.tabBarController.tabBar.isTranslucent);
 }
 
 -(CGFloat)tabBarHeight{
-    return self.webViewController.tabBarHeight;
+    if([self shouldAddTabBarHeightToInsets]){
+        CGRect tabBarFrame = self.webViewController.navigationController.tabBarController.tabBar.frame;
+        return tabBarFrame.size.height;
+    } else {
+        return 0.0;
+    }
 }
 
 - (void)setup:(CDVInvokedUrlCommand*)command{
