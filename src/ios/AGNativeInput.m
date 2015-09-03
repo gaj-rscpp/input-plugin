@@ -251,23 +251,64 @@ int RIGHT_BUTTON_ARG = 3;
     
     [self.webView.superview addSubview:self.inputView];
     
+    self.inputView.translatesAutoresizingMaskIntoConstraints = YES;
+    
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(inputView);
-    NSDictionary *metrics = @{
-                              @"inputViewHeight":[NSNumber numberWithInt:self.inputViewHeight],
-                              @"bottomGap":[NSNumber numberWithInt:self.bottomGap]
-                              };
     
     [self.webView.superview.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[inputView]|"
-                                                                                             options:0 metrics:metrics views:viewsDictionary]];
+                                                                                             options:0 metrics:nil views:viewsDictionary]];
     
-    [self.webView.superview.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[inputView(inputViewHeight)]-bottomGap-|"
-                                                                                             options:0 metrics:metrics views:viewsDictionary]];
+    FrameObservingInputAccessoryView *frameObservingView = [[FrameObservingInputAccessoryView alloc] initWithFrame:CGRectMake(0, 0, self.webView.superview.frame.size.width, self.inputViewHeight)];
+    
+    frameObservingView.userInteractionEnabled = NO;
+    
+    self.inputView.inputField.inputAccessoryView = frameObservingView;
+    
+    CGFloat parentHeight = self.webView.superview.frame.size.height;
+    CGFloat myHeight = self.inputViewHeight;
+    CGFloat tabBarHeight = self.tabBarHeight;
+    
+    __weak typeof(self)weakSelf = self;
+    
+    frameObservingView.inputAcessoryViewFrameChangedBlock = ^(CGRect inputAccessoryViewFrame){
+        CGFloat accessoryY = CGRectGetMinY(inputAccessoryViewFrame);
+        
+        CGFloat inputViewY = parentHeight - myHeight  - tabBarHeight;
+        inputViewY = MIN(inputViewY, MAX(0, accessoryY));
+        
+        CGRect newFrame = CGRectMake(0,
+                                     inputViewY,
+                                     weakSelf.webView.superview.frame.size.width,
+                                     myHeight);
+        
+        weakSelf.inputView.frame = newFrame;
+    };
+
+    CGFloat inputViewY = parentHeight - myHeight  - tabBarHeight;
+    CGRect newFrame = CGRectMake(0,
+                                 inputViewY,
+                                 self.webView.superview.frame.size.width,
+                                 myHeight);
+    
+    self.inputView.frame = newFrame;
+}
+
+-(BOOL)shouldAddTabBarHeightToInsets{
+    return (! self.webViewController.navigationController.tabBarController.tabBar.hidden &&
+            ! self.webViewController.containerViewController.hidesBottomBarWhenPushed &&
+            self.webViewController.navigationController.tabBarController.tabBar.isTranslucent);
+}
+
+-(CGFloat)tabBarHeight{
+    return self.webViewController.tabBarHeight;
 }
 
 - (void)setup:(CDVInvokedUrlCommand*)command{
     [self addInputViewToSuperView];
     
-    if([self isValidDictionaryWithValues:[command.arguments objectAtIndex:PANEL_ARG]]){
+    self.inputView.hidden = YES;
+    
+    if([self isValidDictionaryWithValues:[command.arguments objectAtIndex:INPUT_ARG]]){
         NSDictionary* inputOptions = (NSDictionary*)[command.arguments objectAtIndex:INPUT_ARG];
         [self setInpuFieldOptions:inputOptions];
     }
@@ -313,7 +354,11 @@ int RIGHT_BUTTON_ARG = 3;
     
     self.inputView.hidden = NO;
     
-    //[inputView.inputField becomeFirstResponder];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void)showKeyboard:(CDVInvokedUrlCommand*)command{
+    [inputView.inputField becomeFirstResponder];
     
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
@@ -489,9 +534,6 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 #pragma Keyboard Events
--(CGFloat)tabBarHeight{
-    return self.webViewController.tabBarHeight;
-}
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
@@ -556,5 +598,4 @@ int RIGHT_BUTTON_ARG = 3;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
-
 @end
