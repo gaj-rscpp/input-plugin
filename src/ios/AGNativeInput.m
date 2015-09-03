@@ -546,19 +546,19 @@ int RIGHT_BUTTON_ARG = 3;
         [self sendOnHideEvent];
     }
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    //[UIView beginAnimations:nil context:nil];
+    //[UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    //[UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 
-    CGRect newFrame = self.webView.frame;
-    newFrame.origin.y = 0;
-    self.webView.frame = newFrame;
+    //CGRect newFrame = self.webView.frame;
+    //newFrame.origin.y = 0;
+    //self.webView.frame = newFrame;
     
-    CGRect newInputFrame = inputView.frame;
-    newFrame.origin.y = self.superViewFrame.size.height - inputView.frame.size.height;
-    inputView.frame = newInputFrame;
+    //CGRect newInputFrame = inputView.frame;
+    //newFrame.origin.y = self.superViewFrame.size.height - inputView.frame.size.height;
+    //inputView.frame = newInputFrame;
 
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -570,31 +570,31 @@ int RIGHT_BUTTON_ARG = 3;
 
 - (void)keyboardFrameWillChange:(NSNotification *)notification
 {
-    CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    //CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    //CGRect keyboardBeginFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    //[UIView beginAnimations:nil context:nil];
+    //[UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    //[UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 
-    CGRect newFrame = self.webView.frame;
-    CGRect keyboardFrameEnd = [self.webView convertRect:keyboardEndFrame toView:nil];
-    CGRect keyboardFrameBegin = [self.webView convertRect:keyboardBeginFrame toView:nil];
+    //CGRect newFrame = self.webView.frame;
+    //CGRect keyboardFrameEnd = [self.webView convertRect:keyboardEndFrame toView:nil];
+    //CGRect keyboardFrameBegin = [self.webView convertRect:keyboardBeginFrame toView:nil];
 
-    newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
-    self.webView.frame = newFrame;
+    //newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
+    //self.webView.frame = newFrame;
     
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    //[UIView beginAnimations:nil context:nil];
+    //[UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    //[UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
     
-    CGRect newInputFrame = inputView.frame;
-    newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
-    inputView.frame = newInputFrame;
+    //CGRect newInputFrame = inputView.frame;
+    //newFrame.origin.y -= (keyboardFrameBegin.origin.y - keyboardFrameEnd.origin.y);
+    //inputView.frame = newInputFrame;
 
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
 }
 
 - (void) dealloc
