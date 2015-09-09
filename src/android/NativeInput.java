@@ -565,7 +565,7 @@ public class NativeInput extends CordovaPlugin {
         mOnButtonActionCallback = callbackContext;
     }
     
-    private void onHide(CallbackContext callbackContext, JSONArray args) {
+    private void onHide(CallbackContext callbackContext) {
         mOnKeyboardCloseCallback = callbackContext;
     }
 
