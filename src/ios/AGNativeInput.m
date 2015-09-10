@@ -300,12 +300,12 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 -(CGFloat)tabBarHeight{
-    if([self shouldAddTabBarHeightToInsets]){
-        CGRect tabBarFrame = self.webViewController.navigationController.tabBarController.tabBar.frame;
-        return tabBarFrame.size.height;
-    } else {
+    //if([self shouldAddTabBarHeightToInsets]){
+    //    CGRect tabBarFrame = self.webViewController.navigationController.tabBarController.tabBar.frame;
+    //    return tabBarFrame.size.height;
+    //} else {
         return 0.0;
-    }
+    //}
 }
 
 - (void)setup:(CDVInvokedUrlCommand*)command{
@@ -371,10 +371,13 @@ int RIGHT_BUTTON_ARG = 3;
 - (void)hide:(CDVInvokedUrlCommand*)command{
     [self resetWebViewBaseScrollInsets];
     self.inputView.hidden = YES;
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void)closeKeyboard:(CDVInvokedUrlCommand*)command{
     [self.inputView.inputField resignFirstResponder];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void)onButtonAction:(CDVInvokedUrlCommand*)command{
@@ -382,7 +385,6 @@ int RIGHT_BUTTON_ARG = 3;
 }
 
 - (void)onKeyboardAction:(CDVInvokedUrlCommand*)command{
-    
     if(command.arguments.count > 0 && [self isNotNull:[command.arguments objectAtIndex:0]]){
         self.autoCloseKeyboard = [[command.arguments objectAtIndex:0] boolValue];
     }
