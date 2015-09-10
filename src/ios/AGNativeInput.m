@@ -548,19 +548,19 @@ int RIGHT_BUTTON_ARG = 3;
         [self sendOnHideEvent];
     }
     
-    //[UIView beginAnimations:nil context:nil];
-    //[UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    //[UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
 
-    //CGRect newFrame = self.webView.frame;
-    //newFrame.origin.y = 0;
-    //self.webView.frame = newFrame;
+    CGRect newFrame = self.webView.frame;
+    newFrame.origin.y = 0;
+    self.webView.frame = newFrame;
     
-    //CGRect newInputFrame = inputView.frame;
-    //newFrame.origin.y = self.superViewFrame.size.height - inputView.frame.size.height;
-    //inputView.frame = newInputFrame;
+    CGRect newInputFrame = inputView.frame;
+    newFrame.origin.y = self.superViewFrame.size.height - inputView.frame.size.height;
+    inputView.frame = newInputFrame;
 
-    //[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
