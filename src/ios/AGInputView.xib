@@ -18,7 +18,7 @@
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNe-Lh-K6y">
                     <rect key="frame" x="8" y="8" width="36" height="30"/>
-                    <state key="normal">
+                    <state key="normal" title="Send2">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
